@@ -1,6 +1,6 @@
 body {
     font-family: Arial, sans-serif;
-    background-color: #f0f2f5;
+    background-color: #e6f7f4; /* Tutaj zmieniliśmy kolor na jasnomiętowy */
     display: flex;
     justify-content: center;
     align-items: center;
