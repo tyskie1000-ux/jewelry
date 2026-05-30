@@ -1,29 +1,116 @@
+/* Ogólne ustawienia strony */
 body {
-    font-family: Arial, sans-serif;
-    background-color: #e6f7f4; /* Tutaj zmieniliśmy kolor na jasnomiętowy */
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
+    background-color: #121212; /* Ciemne tło jak na zdjęciu */
+    color: white;
+    font-family: 'serif', sans-serif; /* Możesz potem podpiąć np. Playfair Display */
+    margin: 0;
+    padding: 20px;
+}
+
+/* Nagłówek kategorii */
+.category-section {
+    max-width: 1200px;
+    margin: 0 auto 50px auto;
+}
+
+.category-header {
+    text-align: center;
+    position: relative;
+    margin-bottom: 30px;
+}
+
+.category-title {
+    font-size: 2.5rem;
+    letter-spacing: 5px;
+    text-transform: uppercase;
+    font-weight: 300;
     margin: 0;
 }
-.container {
-    text-align: center;
-    background: white;
-    padding: 30px;
-    border-radius: 10px;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-}
-h1 {
-    color: #00d4b6;
-}
-.btn {
-    display: inline-block;
-    margin-top: 15px;
-    padding: 10px 20px;
-    background-color: #ff9f43;
-    color: #000000; 
+
+.see-more {
+    position: absolute;
+    right: 0;
+    top: 10px;
+    color: #999;
     text-decoration: none;
-    border-radius: 5px;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+}
+
+/* Siatka produktów */
+.products-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 25px;
+}
+
+/* Karta produktu */
+.product-card {
+    background: transparent;
+    transition: transform 0.3s ease;
+}
+
+.product-card:hover {
+    transform: translateY(-5px);
+}
+
+/* Kontener na zdjęcie (biały kwadrat) */
+.image-container {
+    background-color: white;
+    position: relative;
+    aspect-ratio: 1 / 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 15px;
+    overflow: hidden;
+}
+
+.image-container img {
+    max-width: 90%;
+    max-height: 90%;
+    object-fit: contain;
+}
+
+/* Serduszko (ikona ulubionych) */
+.wishlist-icon {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: rgba(0,0,0,0.1);
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #333;
+    cursor: pointer;
+}
+
+/* Tekst pod zdjęciem */
+.product-info {
+    text-align: left;
+}
+
+.product-category-label {
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    color: #888;
+    display: block;
+    margin-bottom: 5px;
+}
+
+.product-name {
+    font-size: 0.9rem;
+    margin: 0 0 10px 0;
+    font-weight: 400;
+    line-height: 1.4;
+    color: #ccc;
+}
+
+.product-price {
+    font-size: 1.1rem;
     font-weight: bold;
+    color: white;
 }

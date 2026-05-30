@@ -3,73 +3,71 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Moja Pierwsza1 Strona w Netlify</title>
+    <title>Morana Art - Ekskluzywna Biżuteria</title>
+    <!-- Łączymy z plikiem style.css -->
     <link rel="stylesheet" href="style.css">
-    <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
 </head>
 <body>
-<div class="container">
-    <h1>Moja Biżuteria 💎</h1>
-    
-    <!-- Tutaj JavaScript "wstrzyknie" nasze produkty -->
-    <div id="products-grid" style="display: flex; gap: 20px; flex-wrap: wrap; margin-top: 20px;">
-        <p>Ładowanie produktów...</p>
-    </div>
-</div>
+
+    <!-- SEKCJA NASZYJNIKI -->
+    <section class="category-section">
+        <div class="category-header">
+            <a href="#" class="see-more">Zobacz więcej >></a>
+            <h2 class="category-title">NASZYJNIKI</h2>
+        </div>
+        
+        <!-- Tu JavaScript wstrzyknie naszyjniki -->
+        <div id="naszyjniki-grid" class="products-grid">
+            <p>Ładowanie naszyjników...</p>
+        </div>
+    </section>
+
+    <!-- SKRYPT DO POBIERANIA DANYCH -->
     <script>
-  if (window.netlifyIdentity) {
-    window.netlifyIdentity.on("init", user => {
-      if (!user) {
-        window.netlifyIdentity.on("login", () => {
-          document.location.href = "/admin/";
-        });
-      }
-    });
-  }
-</script>
+    async function fetchNaszyjniki() {
+        const repoOwner = "tyskie1000-ux"; 
+        const repoName = "jewelry"; 
+        const folderPath = "content/products";
+        const apiUrl = `https://api.github.com/repos/${repoOwner}/${repoName}/contents/${folderPath}`;
 
-<script>
-async function fetchProducts() {
-    const repoOwner = "tyskie1000-ux"; // <--- WPISZ SWOJĄ NAZWĘ
-    const repoName = "jewelry";     // <--- WPISZ NAZWĘ REPO
-    const folderPath = "content/products";
+        try {
+            const response = await fetch(apiUrl);
+            const files = await response.json();
+            const grid = document.getElementById('naszyjniki-grid');
+            grid.innerHTML = ''; // Czyścimy napis "Ładowanie..."
 
-    const grid = document.getElementById('products-grid');
+            for (const file of files) {
+                if (file.name.endsWith('.json')) {
+                    const res = await fetch(file.download_url);
+                    const product = await res.json();
 
-    try {
-        // 1. Pobieramy listę plików z folderu products
-        const response = await fetch(`https://api.github.com/repos/${repoOwner}/${repoName}/contents/${folderPath}`);
-        const files = await response.json();
-
-        grid.innerHTML = ''; // Czyścimy napis "Ładowanie..."
-
-        for (const file of files) {
-            if (file.name.endsWith('.json')) {
-                // 2. Pobieramy zawartość każdego pliku JSON
-                const res = await fetch(file.download_url);
-                const product = await res.json();
-
-                // 3. Tworzymy HTML dla kafelka produktu
-                const productCard = `
-                    <div style="border: 1px solid #ddd; padding: 15px; border-radius: 8px; width: 250px;">
-                        <img src="${product.image}" alt="${product.title}" style="width: 100%; height: 200px; object-fit: cover; border-radius: 5px;">
-                        <h3>${product.title}</h3>
-                        <p><strong>Cena:</strong> ${product.price}</p>
-                        <p>${product.body.substring(0, 50)}...</p>
-                        <span style="background: #eee; padding: 2px 8px; font-size: 12px; border-radius: 10px;">${product.category}</span>
-                    </div>
-                `;
-                grid.innerHTML += productCard;
+                    // Pokazujemy tylko te, które mają kategorię "Naszyjniki"
+                    if (product.category === "Naszyjniki") {
+                        const cardHTML = `
+                            <div class="product-card">
+                                <div class="image-container">
+                                    <div class="wishlist-icon">♡</div>
+                                    <img src="${product.image}" alt="${product.title}">
+                                </div>
+                                <div class="product-info">
+                                    <span class="product-category-label">NOWOŚĆ</span>
+                                    <h3 class="product-name">${product.title}</h3>
+                                    <div class="product-price">${product.price} zł</div>
+                                </div>
+                            </div>
+                        `;
+                        grid.innerHTML += cardHTML;
+                    }
+                }
             }
+        } catch (error) {
+            console.error("Błąd:", error);
+            document.getElementById('naszyjniki-grid').innerHTML = '<p>Nie udało się załadować produktów.</p>';
         }
-    } catch (error) {
-        console.error("Błąd pobierania produktów:", error);
-        grid.innerHTML = '<p>Nie udało się załadować produktów.</p>';
     }
-}
 
-// Uruchom funkcję po załadowaniu strony
-fetchProducts();
-</script>
+    // Uruchamiamy funkcję
+    fetchNaszyjniki();
+    </script>
 </body>
 </html>
