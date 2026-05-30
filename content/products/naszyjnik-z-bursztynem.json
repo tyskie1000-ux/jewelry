@@ -3,5 +3,6 @@
   "title": "Naszyjnik z bursztynem",
   "category": "Naszyjniki",
   "price": "120",
-  "image": "/images/uploads/naszyjnikbursztyn.jpg"
+  "image": "/images/uploads/naszyjnikbursztyn.jpg",
+  "is_new": true
 }
