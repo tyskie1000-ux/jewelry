@@ -1,5 +1,6 @@
 backend:
-  name: git-gateway
+  name: github
+  repo: tyskie1000-ux/jewelry # Twoja nazwa użytkownika/nazwa repo
   branch: main
 
 media_folder: "images/uploads"
