@@ -3,8 +3,8 @@ var ProductPreview = createClass({
     var entry = this.props.entry;
     var title = entry.getIn(['data', 'title']) || "Nazwa produktu";
     var price = entry.getIn(['data', 'price']) || "0.00";
+    var isNew = entry.getIn(['data', 'is_new']); // Pobieramy wartość prawda/fałsz
     
-    // Pobieramy obrazek przez funkcję getAsset (ważne dla podglądu)
     var image = entry.getIn(['data', 'image']);
     var bgImage = this.props.getAsset(image);
 
@@ -12,11 +12,12 @@ var ProductPreview = createClass({
       h('div', { className: 'products-grid' },
         h('div', { className: 'product-card' },
           h('div', { className: 'image-container' },
-            // Jeśli obrazek istnieje, wyświetlamy go, jeśli nie - zostawiamy puste
+            h('div', { className: 'wishlist-icon' }, '♡'),
             bgImage ? h('img', { src: bgImage.toString() }) : null
           ),
           h('div', { className: 'product-info' },
-            h('span', { className: 'product-category-label' }, 'NOWOŚĆ'),
+            // Tutaj sprawdzamy, czy pokazać napis NOWOŚĆ
+            isNew ? h('span', { className: 'product-category-label' }, 'NOWOŚĆ') : null,
             h('h3', { className: 'product-name' }, title),
             h('div', { className: 'product-price' }, price + " zł")
           )

@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Morana Art - Ekskluzywna Biżuteria</title>
-    <!-- Łączymy z plikiem style.css -->
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -15,16 +14,35 @@
             <a href="#" class="see-more">Zobacz więcej >></a>
             <h2 class="category-title">NASZYJNIKI</h2>
         </div>
-        
-        <!-- Tu JavaScript wstrzyknie naszyjniki -->
-        <div id="naszyjniki-grid" class="products-grid">
+        <div id="grid-Naszyjniki" class="products-grid">
             <p>Ładowanie naszyjników...</p>
         </div>
     </section>
 
-    <!-- SKRYPT DO POBIERANIA DANYCH -->
+    <!-- SEKCJA BRANSOLETKI -->
+    <section class="category-section">
+        <div class="category-header">
+            <a href="#" class="see-more">Zobacz więcej >></a>
+            <h2 class="category-title">BRANSOLETKI</h2>
+        </div>
+        <div id="grid-Bransoletki" class="products-grid">
+            <p>Ładowanie bransoletek...</p>
+        </div>
+    </section>
+
+    <!-- SEKCJA KOLCZYKI -->
+    <section class="category-section">
+        <div class="category-header">
+            <a href="#" class="see-more">Zobacz więcej >></a>
+            <h2 class="category-title">KOLCZYKI</h2>
+        </div>
+        <div id="grid-Kolczyki" class="products-grid">
+            <p>Ładowanie kolczyków...</p>
+        </div>
+    </section>
+
     <script>
-    async function fetchNaszyjniki() {
+    async function loadAllProducts() {
         const repoOwner = "tyskie1000-ux"; 
         const repoName = "jewelry"; 
         const folderPath = "content/products";
@@ -33,41 +51,55 @@
         try {
             const response = await fetch(apiUrl);
             const files = await response.json();
-            const grid = document.getElementById('naszyjniki-grid');
-            grid.innerHTML = ''; // Czyścimy napis "Ładowanie..."
+
+            const categories = ["Naszyjniki", "Bransoletki", "Kolczyki"];
+            categories.forEach(cat => {
+                const el = document.getElementById(`grid-${cat}`);
+                if (el) el.innerHTML = '';
+            });
 
             for (const file of files) {
                 if (file.name.endsWith('.json')) {
                     const res = await fetch(file.download_url);
                     const product = await res.json();
 
-                    // Pokazujemy tylko te, które mają kategorię "Naszyjniki"
-                    if (product.category === "Naszyjniki") {
-                        const cardHTML = `
-                            <div class="product-card">
-                                <div class="image-container">
-                                    <div class="wishlist-icon">♡</div>
-                                    <img src="${product.image}" alt="${product.title}">
-                                </div>
-                                <div class="product-info">
-                                    <span class="product-category-label">NOWOŚĆ</span>
-                                    <h3 class="product-name">${product.title}</h3>
-                                    <div class="product-price">${product.price} zł</div>
-                                </div>
+                    // Czyścimy cenę z ewentualnych dopisków "zł", żeby nie było "zł zł"
+                    let cleanPrice = product.price.toString().toLowerCase().replace('zł', '').trim();
+
+                    const cardHTML = `
+                        <div class="product-card">
+                            <div class="image-container">
+                                <div class="wishlist-icon">♡</div>
+                                <img src="${product.image}" alt="${product.title}">
                             </div>
-                        `;
-                        grid.innerHTML += cardHTML;
+                            <div class="product-info">
+                                ${product.is_new ? '<span class="product-category-label">NOWOŚĆ</span>' : ''}
+                                <h3 class="product-name">${product.title}</h3>
+                                <div class="product-price">${cleanPrice} zł</div>
+                            </div>
+                        </div>
+                    `;
+
+                    const targetGrid = document.getElementById(`grid-${product.category}`);
+                    if (targetGrid) {
+                        targetGrid.innerHTML += cardHTML;
                     }
                 }
             }
+
+            categories.forEach(cat => {
+                const el = document.getElementById(`grid-${cat}`);
+                if (el && el.innerHTML === '') {
+                    el.innerHTML = '<p style="color: #666; font-style: italic; text-align:center; width:100%;">Obecnie brak produktów w tej kategorii.</p>';
+                }
+            });
+
         } catch (error) {
-            console.error("Błąd:", error);
-            document.getElementById('naszyjniki-grid').innerHTML = '<p>Nie udało się załadować produktów.</p>';
+            console.error("Błąd ładowania:", error);
         }
     }
 
-    // Uruchamiamy funkcję
-    fetchNaszyjniki();
+    loadAllProducts();
     </script>
 </body>
 </html>
