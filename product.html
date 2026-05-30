@@ -19,6 +19,20 @@
     </div>
 
     <script>
+    // Globalna funkcja do podmiany dużego zdjęcia po kliknięciu w miniaturkę
+    function changeMainImage(imgUrl, element) {
+        const mainImg = document.getElementById('main-product-image');
+        if (mainImg) {
+            mainImg.src = imgUrl;
+        }
+        
+        // Usunięcie podświetlenia ze wszystkich miniatur i dodanie do aktualnej
+        document.querySelectorAll('.thumb-img').forEach(img => img.classList.remove('active'));
+        if (element) {
+            element.classList.add('active');
+        }
+    }
+
     async function loadProductDetail() {
         // 1. Pobieramy ID (nazwę pliku) z adresu URL
         const urlParams = new URLSearchParams(window.location.search);
@@ -47,11 +61,32 @@
             // 2. Wyświetlamy dane
             document.title = `${product.title} - Morana Art`;
             
+            // Pętla budująca miniatury galerii (zaczynamy od zdjęcia głównego)
+            let thumbnailsHTML = `
+                <img src="${product.image}" alt="Miniaturka główna" class="thumb-img active" onclick="changeMainImage('${product.image}', this)">
+            `;
+
+            // Jeśli w pliku JSON produktu istnieją dodatkowe zdjęcia z panelu admina
+            if (product.gallery && Array.isArray(product.gallery)) {
+                product.gallery.forEach(item => {
+                    if (item.image_path) {
+                        thumbnailsHTML += `
+                            <img src="${item.image_path}" alt="Miniaturka dodatkowa" class="thumb-img" onclick="changeMainImage('${item.image_path}', this)">
+                        `;
+                    }
+                });
+            }
+
             const contentEl = document.getElementById('product-content');
             contentEl.innerHTML = `
                 <div class="product-detail-image">
                     <div class="image-container large">
-                        <img src="${product.image}" alt="${product.title}">
+                        <!-- NOWOŚĆ: Dodane id="main-product-image" do podmiany źródła zdjęcia -->
+                        <img id="main-product-image" src="${product.image}" alt="${product.title}">
+                    </div>
+                    <!-- NOWOŚĆ: Miejsce, w którym wyświetlą się miniatury zdjęć -->
+                    <div class="gallery-thumbnails">
+                        ${thumbnailsHTML}
                     </div>
                 </div>
                 <div class="product-detail-info">

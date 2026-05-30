@@ -199,6 +199,35 @@ body {
     background: #ddd;
 }
 
+/* Nowe style dla galerii miniatur (dodaj na końcu style.css) */
+.gallery-thumbnails {
+    display: flex;
+    gap: 15px;
+    margin-top: 20px;
+    flex-wrap: wrap;
+    max-width: 450px; /* Dopasowanie do szerokości dużego kontenera */
+}
+
+.thumb-img {
+    width: 70px;
+    height: 70px;
+    object-fit: contain; /* Zmieniono na contain, aby pasowało do logiki białych kwadratów */
+    background-color: white; /* Białe tło miniaturki pasujące do dużego zdjęcia */
+    padding: 5px;
+    cursor: pointer;
+    border: 2px solid transparent;
+    transition: all 0.3s ease;
+    box-sizing: border-box;
+}
+
+.thumb-img:hover {
+    transform: translateY(-2px); /* Delikatne uniesienie przy najechaniu, jak przy kartach */
+}
+
+.thumb-img.active {
+    border-color: white; /* Wyraźna biała ramka oznaczająca aktywne zdjęcie */
+}
+
 /* RWD - na telefonach jedna kolumna */
 @media (max-width: 768px) {
     .product-detail-layout {
