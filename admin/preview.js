@@ -1,4 +1,3 @@
-// Tworzymy komponent podglądu
 var ProductPreview = createClass({
   render: function() {
     var entry = this.props.entry;
@@ -6,22 +5,34 @@ var ProductPreview = createClass({
     var price = entry.getIn(['data', 'price']) || "0.00";
     var category = entry.getIn(['data', 'category']) || "Brak kategorii";
     
-    // Pobieramy obrazek (obsługa przesyłania w locie)
     var image = entry.getIn(['data', 'image']);
     var imageUrl = this.props.getAsset(image);
 
-    // Zwracamy HTML, który wygląda tak samo jak na Twojej stronie
-    return h('div', { style: { padding: '20px', background: '#0a2a22', minHeight: '100vh' } },
-      h('div', { className: 'product-card', style: { border: '1px solid #ddd', padding: '15px', borderRadius: '8px', width: '250px', background: 'white', color: 'black', margin: '0 auto' } },
-        imageUrl ? h('img', { src: imageUrl.toString(), style: { width: '100%', height: '200px', objectFit: 'cover', borderRadius: '5px' } }) : null,
-        h('h3', { style: { margin: '10px 0' } }, title),
-        h('p', {}, h('strong', {}, 'Cena: '), price + " zł"),
-        h('div', { style: { fontSize: '0.9em', marginBottom: '10px' } }, this.props.widgetFor('body')),
-        h('span', { style: { background: '#008080', color: 'white', padding: '4px 10px', fontSize: '12px', borderRadius: '10px' } }, category)
+    // Renderujemy podgląd pasujący do nowego stylu CSS
+    return h('div', { style: { background: '#121212', padding: '40px', minHeight: '100vh', display: 'flex', justifyContent: 'center' } },
+      h('div', { className: 'product-card', style: { width: '250px' } },
+        h('div', { 
+          style: { 
+            background: 'white', 
+            aspectRatio: '1/1', 
+            display: 'flex', 
+            alignItems: 'center', 
+            justifyContent: 'center',
+            marginBottom: '15px',
+            position: 'relative'
+          } 
+        },
+          h('div', { style: { position: 'absolute', top: '10px', right: '10px', color: '#333' } }, '♡'),
+          imageUrl ? h('img', { src: imageUrl.toString(), style: { maxWidth: '90%', maxHeight: '90%', objectFit: 'contain' } }) : null
+        ),
+        h('div', { style: { textAlign: 'left' } },
+          h('span', { style: { fontSize: '0.7rem', color: '#888', textTransform: 'uppercase' } }, 'NOWOŚĆ'),
+          h('h3', { style: { fontSize: '0.9rem', color: '#ccc', margin: '5px 0', fontWeight: '400' } }, title),
+          h('div', { style: { fontSize: '1.1rem', color: 'white', fontWeight: 'bold' } }, price + " zł")
+        )
       )
     );
   }
 });
 
-// Rejestrujemy ten podgląd dla kolekcji "products"
 CMS.registerPreviewTemplate("products", ProductPreview);
