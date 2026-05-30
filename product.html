@@ -37,7 +37,9 @@
         try {
             const response = await fetch(apiUrl + '?t=' + Date.now());
             const fileData = await response.json();
-            const product = JSON.parse(atob(fileData.content)); // Dekodowanie treści pliku z GitHub
+            
+            const rawRes = await fetch(fileData.download_url + '?t=' + Date.now());
+            const product = await rawRes.json();
 
             const isNew = product.is_new === true || product.is_new === "true";
             let cleanPrice = product.price.toString().toLowerCase().replace('zł', '').trim();
