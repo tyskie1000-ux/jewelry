@@ -9,6 +9,8 @@ collections:
   - name: "products"
     label: "Produkty"
     folder: "content/products" # Tu CMS będzie zapisywał pliki z produktami
+    extension: "json"
+    format: "json"
     create: true
     slug: "{{slug}}"
     fields:
