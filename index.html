@@ -42,64 +42,70 @@
     </section>
 
     <script>
-    async function loadAllProducts() {
-        const repoOwner = "tyskie1000-ux"; 
-        const repoName = "jewelry"; 
-        const folderPath = "content/products";
-        const apiUrl = `https://api.github.com/repos/${repoOwner}/${repoName}/contents/${folderPath}`;
+async function loadAllProducts() {
+    const repoOwner = "tyskie1000-ux"; 
+    const repoName = "jewelry"; 
+    const folderPath = "content/products";
+    const apiUrl = `https://api.github.com/repos/${repoOwner}/${repoName}/contents/${folderPath}`;
 
-        try {
-            const response = await fetch(apiUrl);
-            const files = await response.json();
+    try {
+        const response = await fetch(apiUrl);
+        const files = await response.json();
 
-            const categories = ["Naszyjniki", "Bransoletki", "Kolczyki"];
-            categories.forEach(cat => {
-                const el = document.getElementById(`grid-${cat}`);
-                if (el) el.innerHTML = '';
-            });
+        const categories = ["Naszyjniki", "Bransoletki", "Kolczyki"];
+        categories.forEach(cat => {
+            const el = document.getElementById(`grid-${cat}`);
+            if (el) el.innerHTML = '';
+        });
 
-            for (const file of files) {
-                if (file.name.endsWith('.json')) {
-                    const res = await fetch(file.download_url);
-                    const product = await res.json();
+        // TO JEST TWOJA PĘTLA FOR
+        for (const file of files) {
+            if (file.name.endsWith('.json')) {
+                // Fetch z funkcją odświeżania (Cache Buster)
+                const res = await fetch(file.download_url + '?t=' + Date.now());
+                const product = await res.json();
 
-                    // Czyścimy cenę z ewentualnych dopisków "zł", żeby nie było "zł zł"
-                    let cleanPrice = product.price.toString().toLowerCase().replace('zł', '').trim();
+                // 1. Sprawdzamy czy produkt to nowość (bezpieczna metoda)
+                const isNew = product.is_new === true || product.is_new === "true";
 
-                    const cardHTML = `
-                        <div class="product-card">
-                            <div class="image-container">
-                                <div class="wishlist-icon">♡</div>
-                                <img src="${product.image}" alt="${product.title}">
-                            </div>
-                            <div class="product-info">
-                                ${product.is_new ? '<span class="product-category-label">NOWOŚĆ</span>' : ''}
-                                <h3 class="product-name">${product.title}</h3>
-                                <div class="product-price">${cleanPrice} zł</div>
-                            </div>
+                // 2. Czyścimy cenę
+                let cleanPrice = product.price.toString().toLowerCase().replace('zł', '').trim();
+
+                const cardHTML = `
+                    <div class="product-card">
+                        <div class="image-container">
+                            <div class="wishlist-icon">♡</div>
+                            <img src="${product.image}" alt="${product.title}">
                         </div>
-                    `;
+                        <div class="product-info">
+                            <!-- Używamy nowej zmiennej isNew -->
+                            ${isNew ? '<span class="product-category-label">NOWOŚĆ</span>' : ''}
+                            <h3 class="product-name">${product.title}</h3>
+                            <div class="product-price">${cleanPrice} zł</div>
+                        </div>
+                    </div>
+                `;
 
-                    const targetGrid = document.getElementById(`grid-${product.category}`);
-                    if (targetGrid) {
-                        targetGrid.innerHTML += cardHTML;
-                    }
+                const targetGrid = document.getElementById(`grid-${product.category}`);
+                if (targetGrid) {
+                    targetGrid.innerHTML += cardHTML;
                 }
             }
-
-            categories.forEach(cat => {
-                const el = document.getElementById(`grid-${cat}`);
-                if (el && el.innerHTML === '') {
-                    el.innerHTML = '<p style="color: #666; font-style: italic; text-align:center; width:100%;">Obecnie brak produktów w tej kategorii.</p>';
-                }
-            });
-
-        } catch (error) {
-            console.error("Błąd ładowania:", error);
         }
-    }
 
-    loadAllProducts();
-    </script>
+        categories.forEach(cat => {
+            const el = document.getElementById(`grid-${cat}`);
+            if (el && el.innerHTML === '') {
+                el.innerHTML = '<p style="color: #666; font-style: italic; text-align:center; width:100%;">Obecnie brak produktów w tej kategorii.</p>';
+            }
+        });
+
+    } catch (error) {
+        console.error("Błąd ładowania:", error);
+    }
+}
+
+loadAllProducts();
+</script>
 </body>
 </html>
