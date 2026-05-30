@@ -13,6 +13,33 @@ collections:
     format: "json"
     create: true
     slug: "{{slug}}"
+    collections:
+  - name: "products"
+    label: "Produkty"
+    folder: "content/products"
+    extension: "json"
+    format: "json"
+    create: true
+    slug: "{{slug}}"
+    
+    # --- TUTAJ DODAJEMY NOWE FUNKCJE ---
+    view_groups:
+      - label: "Grupuj wg kategorii"
+        field: "category"
+    view_filters:
+      - label: "Tylko Naszyjniki"
+        field: "category"
+        pattern: "Naszyjnik"
+      - label: "Tylko Bransolety"
+        field: "category"
+        pattern: "Bransoleta"
+    # -----------------------------------
+
+    fields:
+      - label: "Nazwa produktu"
+        name: "title"
+        widget: "string"
+      # ... reszta Twoich pól (price, body, image, category) zostaje bez zmian
     fields:
       - label: "Nazwa produktu"
         name: "title"
