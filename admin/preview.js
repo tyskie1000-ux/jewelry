@@ -16,10 +16,10 @@ var ProductPreview = createClass({
             bgImage ? h('img', { src: bgImage.toString() }) : null
           ),
           h('div', { className: 'product-info' },
-            // Tutaj sprawdzamy, czy pokazać napis NOWOŚĆ
             isNew ? h('span', { className: 'product-category-label' }, 'NOWOŚĆ') : null,
             h('h3', { className: 'product-name' }, title),
-            h('div', { className: 'product-price' }, price + " zł")
+            h('div', { className: 'product-price' }, price + " zł"),
+            h('div', { className: 'product-description', style: { marginTop: '10px', fontSize: '0.8rem', color: '#aaa' } }, this.props.widgetFor('body'))
           )
         )
       )
