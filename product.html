@@ -67,15 +67,17 @@
             `;
 
             // Jeśli w pliku JSON produktu istnieją dodatkowe zdjęcia z panelu admina
+            // NOWY KOD (WLEJ W TO MIEJSCE)
             if (product.gallery && Array.isArray(product.gallery)) {
-                product.gallery.forEach(item => {
-                    if (item.image_path) {
-                        thumbnailsHTML += `
-                            <img src="${item.image_path}" alt="Miniaturka dodatkowa" class="thumb-img" onclick="changeMainImage('${item.image_path}', this)">
-                        `;
-                    }
-                });
-            }
+            product.gallery.forEach(imagePath => {
+            if (imagePath) {
+            thumbnailsHTML += `
+                <img src="${imagePath}" alt="Miniaturka dodatkowa" class="thumb-img" onclick="changeMainImage('${imagePath}', this)">
+            `;
+        }
+    });
+}
+
 
             const contentEl = document.getElementById('product-content');
             contentEl.innerHTML = `
