@@ -14,19 +14,20 @@ collections:
     create: true
     slug: "{{slug}}"
     
-    # Tutaj są nowe funkcje grupowania i filtrowania
     view_groups:
       - label: "Grupuj wg kategorii"
         field: "category"
     view_filters:
       - label: "Tylko Naszyjniki"
         field: "category"
-        pattern: "Naszyjnik"
-      - label: "Tylko Bransolety"
+        pattern: "Naszyjniki"
+      - label: "Tylko Bransoletki"
         field: "category"
-        pattern: "Bransoleta"
+        pattern: "Bransoletki"
+      - label: "Tylko Kolczyki"
+        field: "category"
+        pattern: "Kolczyki"
 
-    # Tutaj są definicje wszystkich pól (tylko raz!)
     fields:
       - label: "Nazwa produktu"
         name: "title"
@@ -43,4 +44,4 @@ collections:
       - label: "Kategoria"
         name: "category"
         widget: "select"
-        options: ["Naszyjnik", "Bransoleta", "Kolczyki", "Pierścionek"]
+        options: ["Naszyjniki", "Bransoletki", "Kolczyki"]
