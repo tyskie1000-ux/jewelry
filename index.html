@@ -61,30 +61,25 @@ async function loadAllProducts() {
         // TO JEST TWOJA PĘTLA FOR
         for (const file of files) {
             if (file.name.endsWith('.json')) {
-                // Fetch z funkcją odświeżania (Cache Buster)
-                const res = await fetch(file.download_url + '?t=' + Date.now());
-                const product = await res.json();
+                    const res = await fetch(file.download_url + '?t=' + Date.now());
+                    const product = await res.json();
 
-                // 1. Sprawdzamy czy produkt to nowość (bezpieczna metoda)
-                const isNew = product.is_new === true || product.is_new === "true";
+                    const isNew = product.is_new === true || product.is_new === "true";
+                    let cleanPrice = product.price.toString().toLowerCase().replace('zł', '').trim();
 
-                // 2. Czyścimy cenę
-                let cleanPrice = product.price.toString().toLowerCase().replace('zł', '').trim();
-
-                const cardHTML = `
-                    <div class="product-card">
-                        <div class="image-container">
-                            <div class="wishlist-icon">♡</div>
-                            <img src="${product.image}" alt="${product.title}">
+                    const cardHTML = `
+                        <div class="product-card">
+                            <div class="image-container">
+                                <div class="wishlist-icon">♡</div>
+                                <img src="${product.image}" alt="${product.title}">
+                            </div>
+                            <div class="product-info">
+                                ${isNew ? '<span class="product-category-label">NOWOŚĆ</span>' : ''}
+                                <h3 class="product-name">${product.title}</h3>
+                                <div class="product-price">${cleanPrice} zł</div>
+                            </div>
                         </div>
-                        <div class="product-info">
-                            <!-- Używamy nowej zmiennej isNew -->
-                            ${isNew ? '<span class="product-category-label">NOWOŚĆ</span>' : ''}
-                            <h3 class="product-name">${product.title}</h3>
-                            <div class="product-price">${cleanPrice} zł</div>
-                        </div>
-                    </div>
-                `;
+                    `;
 
                 const targetGrid = document.getElementById(`grid-${product.category}`);
                 if (targetGrid) {
