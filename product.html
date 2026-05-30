@@ -58,10 +58,13 @@
                     ${isNew ? '<span class="product-category-label">NOWOŚĆ</span>' : ''}
                     <h1 class="category-title" style="text-align: left; font-size: 2rem;">${product.title}</h1>
                     <div class="product-price" style="font-size: 1.5rem; margin: 20px 0;">${cleanPrice} zł</div>
+                    <button class="buy-button">ZAPYTAJ O PRODUKT</button>
+                </div>
+                <div class="product-full-description">
+                    <h2 class="description-header">Opis:</h2>
                     <div class="product-description">
                         ${marked.parse(product.body || '')}
                     </div>
-                    <button class="buy-button">ZAPYTAJ O PRODUKT</button>
                 </div>
             `;
         } catch (error) {
