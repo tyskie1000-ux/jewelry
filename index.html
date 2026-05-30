@@ -68,7 +68,7 @@ async function loadAllProducts() {
                     let cleanPrice = product.price.toString().toLowerCase().replace('zł', '').trim();
 
                     const cardHTML = `
-                        <div class="product-card">
+                        <a href="product.html?id=${file.name}" class="product-card" style="text-decoration: none;">
                             <div class="image-container">
                                 <div class="wishlist-icon">♡</div>
                                 <img src="${product.image}" alt="${product.title}">
@@ -78,7 +78,7 @@ async function loadAllProducts() {
                                 <h3 class="product-name">${product.title}</h3>
                                 <div class="product-price">${cleanPrice} zł</div>
                             </div>
-                        </div>
+                        </a>
                     `;
 
                 const targetGrid = document.getElementById(`grid-${product.category}`);

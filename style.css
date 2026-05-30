@@ -120,3 +120,77 @@ body {
     font-weight: bold;
     color: white;
 }
+
+/* Style strony produktu */
+.product-detail-container {
+    max-width: 1000px;
+    margin: 40px auto;
+    padding: 0 20px;
+}
+
+.back-link {
+    color: #888;
+    text-decoration: none;
+    font-size: 0.9rem;
+    display: inline-block;
+    margin-bottom: 30px;
+    transition: color 0.3s;
+}
+
+.back-link:hover {
+    color: white;
+}
+
+.product-detail-layout {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 50px;
+    align-items: start;
+}
+
+/* Duży biały kwadrat na zdjęcie */
+.image-container.large {
+    width: 100%;
+    max-width: 450px;
+}
+
+.product-detail-info {
+    padding-top: 20px;
+}
+
+.product-description {
+    color: #ccc;
+    line-height: 1.6;
+    margin-bottom: 30px;
+    font-size: 1.05rem;
+}
+
+/* Przycisk akcji */
+.buy-button {
+    background: white;
+    color: black;
+    border: none;
+    padding: 15px 40px;
+    font-family: serif;
+    font-weight: bold;
+    letter-spacing: 2px;
+    cursor: pointer;
+    transition: background 0.3s;
+    width: 100%;
+}
+
+.buy-button:hover {
+    background: #ddd;
+}
+
+/* RWD - na telefonach jedna kolumna */
+@media (max-width: 768px) {
+    .product-detail-layout {
+        grid-template-columns: 1fr;
+        gap: 30px;
+    }
+    
+    .image-container.large {
+        max-width: 100%;
+    }
+}

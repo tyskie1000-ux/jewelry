@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Szczegóły Produktu - Morana Art</title>
+    <link rel="stylesheet" href="style.css">
+    <!-- Skrypt do zamiany Markdown na HTML (dla opisu) -->
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+</head>
+<body>
+
+    <div class="container product-detail-container">
+        <a href="index.html" class="back-link"><< Powrót do oferty</a>
+        
+        <div id="product-content" class="product-detail-layout">
+            <p>Ładowanie szczegółów produktu...</p>
+        </div>
+    </div>
+
+    <script>
+    async function loadProductDetail() {
+        // 1. Pobieramy ID (nazwę pliku) z adresu URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const productId = urlParams.get('id');
+
+        if (!productId) {
+            window.location.href = 'index.html';
+            return;
+        }
+
+        const repoOwner = "tyskie1000-ux"; 
+        const repoName = "jewelry"; 
+        const filePath = `content/products/${productId}`;
+        const apiUrl = `https://api.github.com/repos/${repoOwner}/${repoName}/contents/${filePath}`;
+
+        try {
+            const response = await fetch(apiUrl + '?t=' + Date.now());
+            const fileData = await response.json();
+            const product = JSON.parse(atob(fileData.content)); // Dekodowanie treści pliku z GitHub
+
+            const isNew = product.is_new === true || product.is_new === "true";
+            let cleanPrice = product.price.toString().toLowerCase().replace('zł', '').trim();
+
+            // 2. Wyświetlamy dane
+            document.title = `${product.title} - Morana Art`;
+            
+            const contentEl = document.getElementById('product-content');
+            contentEl.innerHTML = `
+                <div class="product-detail-image">
+                    <div class="image-container large">
+                        <img src="${product.image}" alt="${product.title}">
+                    </div>
+                </div>
+                <div class="product-detail-info">
+                    ${isNew ? '<span class="product-category-label">NOWOŚĆ</span>' : ''}
+                    <h1 class="category-title" style="text-align: left; font-size: 2rem;">${product.title}</h1>
+                    <div class="product-price" style="font-size: 1.5rem; margin: 20px 0;">${cleanPrice} zł</div>
+                    <div class="product-description">
+                        ${marked.parse(product.body || '')}
+                    </div>
+                    <button class="buy-button">ZAPYTAJ O PRODUKT</button>
+                </div>
+            `;
+        } catch (error) {
+            console.error(error);
+            document.getElementById('product-content').innerHTML = '<p>Produkt nie został znaleziony.</p>';
+        }
+    }
+
+    loadProductDetail();
+    </script>
+</body>
+</html>
