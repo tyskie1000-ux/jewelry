@@ -1,26 +1,32 @@
 backend:
   name: git-gateway
-  branch: main # lub master, zależnie jak masz na GitHubie
+  branch: main
 
-media_folder: "images/uploads" # Tu będą trafiać zdjęcia produktów
+media_folder: "images/uploads"
 public_folder: "/images/uploads"
 
 collections:
   - name: "products"
     label: "Produkty"
-    folder: "content/products" # Tu CMS będzie zapisywał pliki z produktami
+    folder: "content/products"
     extension: "json"
     format: "json"
     create: true
     slug: "{{slug}}"
     fields:
-      - { label: "Nazwa produktu", name: "title", widget: "string" }
-      - { label: "Cena", name: "price", widget: "string" }
-      - { label: "Opis", name: "body", widget: "markdown" }
-      - { label: "Zdjęcie", name: "image", widget: "image" }
-      - {
-          label: "Kategoria",
-          name: "category",
-          widget: "select",
-          options: ["Naszyjnik", "Bransoleta", "Kolczyki", "Pierścionek"],
-        }
+      - label: "Nazwa produktu"
+        name: "title"
+        widget: "string"
+      - label: "Cena"
+        name: "price"
+        widget: "string"
+      - label: "Opis"
+        name: "body"
+        widget: "markdown"
+      - label: "Zdjęcie"
+        name: "image"
+        widget: "image"
+      - label: "Kategoria"
+        name: "category"
+        widget: "select"
+        options: ["Naszyjnik", "Bransoleta", "Kolczyki", "Pierścionek"]
