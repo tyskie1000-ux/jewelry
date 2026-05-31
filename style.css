@@ -43,11 +43,36 @@ body {
     text-transform: uppercase;
 }
 
-/* Siatka produktów */
-.products-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-    gap: 25px;
+/* Slider produktów */
+.products-swiper {
+    padding: 10px 0 40px 0 !important;
+    overflow: hidden;
+    position: relative;
+}
+
+.products-swiper .swiper-button-next,
+.products-swiper .swiper-button-prev {
+    color: white;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 10;
+    background: rgba(18, 18, 18, 0.6);
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+}
+
+.products-swiper .swiper-button-next::after,
+.products-swiper .swiper-button-prev::after {
+    font-size: 1.2rem;
+    font-weight: bold;
+}
+
+.products-swiper .swiper-button-next { right: 5px; }
+.products-swiper .swiper-button-prev { left: 5px; }
+
+.products-swiper .swiper-button-disabled {
+    display: none;
 }
 
 /* Karta produktu */
