@@ -53,7 +53,7 @@ body {
 .products-swiper .swiper-button-next,
 .products-swiper .swiper-button-prev {
     color: white;
-    top: 160px;
+    top: 155px;
     transform: translateY(-50%);
     z-index: 10;
     background: rgba(18, 18, 18, 0.6);
