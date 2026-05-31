@@ -14,6 +14,28 @@
         <h1 class="site-title">MORANA ART JEWELRY</h1>
     </header>
 
+    <nav class="main-nav">
+        <div class="nav-container">
+            <ul class="nav-links">
+                <li><a href="#sec-Bransoletki">Bransoletki</a></li>
+                <li><a href="#sec-Kolczyki">Kolczyki</a></li>
+                <li><a href="#sec-Naszyjniki">Naszyjniki</a></li>
+            </ul>
+
+            <div class="permanent-menu">
+                <div class="hamburger-icon" onclick="toggleExtraMenu()">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                    <ul class="extra-dropdown" id="extraMenu">
+                        <li><a href="omnie.html">O mnie</a></li>
+                        <li><a href="kontakt.html">Kontakt</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </nav>
+
     <!-- SLIDER -->
     <div class="swiper main-slider">
         <div class="swiper-wrapper">
@@ -24,19 +46,8 @@
         <div class="swiper-pagination"></div>
     </div>
 
-    <!-- SEKCJA NASZYJNIKI -->
-    <section class="category-section">
-        <div class="category-header">
-            <a href="#" class="see-more">Zobacz więcej >></a>
-            <h2 class="category-title">NASZYJNIKI</h2>
-        </div>
-        <div id="grid-Naszyjniki" class="products-grid">
-            <p>Ładowanie naszyjników...</p>
-        </div>
-    </section>
-
     <!-- SEKCJA BRANSOLETKI -->
-    <section class="category-section">
+    <section id="sec-Bransoletki" class="category-section">
         <div class="category-header">
             <a href="#" class="see-more">Zobacz więcej >></a>
             <h2 class="category-title">BRANSOLETKI</h2>
@@ -47,13 +58,24 @@
     </section>
 
     <!-- SEKCJA KOLCZYKI -->
-    <section class="category-section">
+    <section id="sec-Kolczyki" class="category-section">
         <div class="category-header">
             <a href="#" class="see-more">Zobacz więcej >></a>
             <h2 class="category-title">KOLCZYKI</h2>
         </div>
         <div id="grid-Kolczyki" class="products-grid">
             <p>Ładowanie kolczyków...</p>
+        </div>
+    </section>
+
+    <!-- SEKCJA NASZYJNIKI -->
+    <section id="sec-Naszyjniki" class="category-section">
+        <div class="category-header">
+            <a href="#" class="see-more">Zobacz więcej >></a>
+            <h2 class="category-title">NASZYJNIKI</h2>
+        </div>
+        <div id="grid-Naszyjniki" class="products-grid">
+            <p>Ładowanie naszyjników...</p>
         </div>
     </section>
 
@@ -68,7 +90,7 @@ async function loadAllProducts() {
         const response = await fetch(apiUrl);
         const files = await response.json();
 
-        const categories = ["Naszyjniki", "Bransoletki", "Kolczyki"];
+        const categories = ["Bransoletki", "Kolczyki", "Naszyjniki"];
         categories.forEach(cat => {
             const el = document.getElementById(`grid-${cat}`);
             if (el) el.innerHTML = '';
@@ -121,6 +143,11 @@ loadAllProducts();
 
 <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
 <script>
+  function toggleExtraMenu() {
+      const extra = document.getElementById('extraMenu');
+      extra.classList.toggle('active');
+  }
+
   const swiper = new Swiper('.main-slider', {
     loop: true,
     autoplay: {

@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>O mnie - Morana Art</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <header class="site-header">
+        <a href="index.html" style="text-decoration: none; color: inherit;">
+            <img src="images/uploads/logo.jpg" alt="Morana Art Logo" class="site-logo">
+            <h1 class="site-title">MORANA ART JEWELRY</h1>
+        </a>
+    </header>
+
+    <nav class="main-nav">
+        <div class="nav-container">
+            <ul class="nav-links">
+                <li><a href="index.html#sec-Bransoletki">Bransoletki</a></li>
+                <li><a href="index.html#sec-Kolczyki">Kolczyki</a></li>
+                <li><a href="index.html#sec-Naszyjniki">Naszyjniki</a></li>
+            </ul>
+
+            <div class="permanent-menu">
+                <div class="hamburger-icon" onclick="toggleExtraMenu()">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                    <ul class="extra-dropdown" id="extraMenu">
+                        <li><a href="omnie.html">O mnie</a></li>
+                        <li><a href="kontakt.html">Kontakt</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <section class="category-section">
+        <div class="category-header">
+            <h2 class="category-title">O MNIE</h2>
+        </div>
+        <div class="product-description" style="max-width: 800px; margin: 0 auto; text-align: center;">
+            <!-- Tutaj dodamy treść później -->
+            <p>Strona w przygotowaniu...</p>
+        </div>
+    </section>
+
+    <script>
+        function toggleExtraMenu() {
+            const extra = document.getElementById('extraMenu');
+            extra.classList.toggle('active');
+        }
+    </script>
+</body>
+</html>
