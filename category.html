@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kategoria - Morana Art</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <header class="site-header">
+        <a href="index.html" style="text-decoration: none; color: inherit;">
+            <img src="images/uploads/logo.jpg" alt="Morana Art Logo" class="site-logo">
+            <h1 class="site-title">MORANA ART JEWELRY</h1>
+        </a>
+    </header>
+
+    <nav class="main-nav">
+        <div class="nav-container">
+            <ul class="nav-links">
+                <li><a href="index.html#sec-Bransoletki">Bransoletki</a></li>
+                <li><a href="index.html#sec-Kolczyki">Kolczyki</a></li>
+                <li><a href="index.html#sec-Naszyjniki">Naszyjniki</a></li>
+            </ul>
+            <div class="permanent-menu">
+                <div class="hamburger-icon" onclick="toggleExtraMenu()">
+                    <span></span><span></span><span></span>
+                    <ul class="extra-dropdown" id="extraMenu">
+                        <li><a href="omnie.html">O mnie</a></li>
+                        <li><a href="kontakt.html">Kontakt</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <section class="category-section">
+        <div class="category-header">
+            <h2 id="page-title" class="category-title">ŁADOWANIE...</h2>
+        </div>
+        <div id="category-grid" class="products-grid">
+            <!-- Produkty zostaną wczytane tutaj -->
+        </div>
+    </section>
+
+    <script>
+        function toggleExtraMenu() {
+            document.getElementById('extraMenu').classList.toggle('active');
+        }
+
+        async function loadCategoryProducts() {
+            const params = new URLSearchParams(window.location.search);
+            const category = params.get('cat');
+            if (!category) return;
+
+            document.getElementById('page-title').innerText = category.toUpperCase();
+            document.title = `${category} - Morana Art`;
+
+            const repoOwner = "tyskie1000-ux"; 
+            const repoName = "jewelry"; 
+            const apiUrl = `https://api.github.com/repos/${repoOwner}/${repoName}/contents/content/products`;
+
+            try {
+                const response = await fetch(apiUrl);
+                const files = await response.json();
+                const grid = document.getElementById('category-grid');
+                grid.innerHTML = '';
+
+                for (const file of files) {
+                    if (file.name.endsWith('.json')) {
+                        const res = await fetch(file.download_url + '?t=' + Date.now());
+                        const product = await res.json();
+
+                        if (product.category === category) {
+                            const isNew = product.is_new === true || product.is_new === "true";
+                            let cleanPrice = product.price.toString().toLowerCase().replace('zł', '').trim();
+
+                            grid.innerHTML += `
+                                <a href="product.html?id=${file.name}" class="product-card" style="text-decoration: none;">
+                                    <div class="image-container">
+                                        <img src="${product.image}" alt="${product.title}">
+                                    </div>
+                                    <div class="product-info">
+                                        ${isNew ? '<span class="product-category-label">NOWOŚĆ</span>' : ''}
+                                        <h3 class="product-name">${product.title}</h3>
+                                        <div class="product-price">${cleanPrice} zł</div>
+                                    </div>
+                                </a>
+                            `;
+                        }
+                    }
+                }
+            } catch (error) {
+                console.error("Błąd:", error);
+            }
+        }
+
+        loadCategoryProducts();
+    </script>
+</body>
+</html>

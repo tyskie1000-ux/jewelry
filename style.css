@@ -20,14 +20,17 @@ body {
 }
 
 .category-header {
-    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     position: relative;
-    margin-bottom: 30px;
+    margin-bottom: 40px;
+    padding: 0 10px;
 }
 
 .category-title {
     font-size: 2.5rem;
-    letter-spacing: 5px;
+    letter-spacing: 8px;
     text-transform: uppercase;
     font-weight: 300;
     margin: 0;
@@ -35,12 +38,29 @@ body {
 
 .see-more {
     position: absolute;
-    right: 0;
-    top: 10px;
-    color: #999;
+    right: 10px;
+    color: #bbb;
     text-decoration: none;
-    font-size: 0.8rem;
+    font-size: 0.7rem;
     text-transform: uppercase;
+    letter-spacing: 2px;
+    border: 1px solid #444;
+    padding: 8px 16px;
+    transition: all 0.3s ease;
+}
+
+.see-more:hover {
+    color: white;
+    border-color: white;
+    background: rgba(255,255,255,0.05);
+}
+
+/* Siatka produktów (dla strony kategorii) */
+.products-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 25px;
+    margin-top: 30px;
 }
 
 /* Slider produktów */
@@ -409,9 +429,15 @@ body {
         letter-spacing: 3px;
     }
 
+    .category-header {
+        flex-direction: column;
+        gap: 15px;
+    }
+
     .see-more {
-        top: -5px;
-        font-size: 0.7rem;
+        position: static;
+        font-size: 0.65rem;
+        padding: 6px 12px;
     }
 
     .products-swiper .swiper-button-next,
