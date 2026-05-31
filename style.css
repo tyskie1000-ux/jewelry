@@ -1,14 +1,15 @@
 /* Ogólne ustawienia strony */
 body {
-    background-color: #121212; /* Ciemne tło jak na zdjęciu */
+    background-color: #121212;
     color: white;
-    font-family: 'serif', sans-serif; /* Możesz potem podpiąć np. Playfair Display */
+    font-family: 'serif', sans-serif;
     margin: 0;
-    padding: 20px;
+    padding: 0;
 }
 
 /* Nagłówek kategorii */
 .category-section {
+    padding: 20px;
     max-width: 1200px;
     margin: 0 auto 50px auto;
 }
@@ -233,6 +234,7 @@ body {
     width: 100%;
     height: 400px;
     margin-bottom: 40px;
+    margin-top: 0;
 }
 
 .main-slider .swiper-slide img {
