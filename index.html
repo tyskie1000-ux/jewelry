@@ -5,8 +5,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Morana Art - Ekskluzywna Biżuteria</title>
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
 </head>
 <body>
+
+    <!-- SLIDER -->
+    <div class="swiper main-slider">
+        <div class="swiper-wrapper">
+            <div class="swiper-slide"><img src="images/slider1.jpg" alt="Kolekcja 1"></div>
+            <div class="swiper-slide"><img src="images/slider2.jpg" alt="Kolekcja 2"></div>
+            <div class="swiper-slide"><img src="images/slider3.jpg" alt="Kolekcja 3"></div>
+        </div>
+        <div class="swiper-pagination"></div>
+    </div>
 
     <!-- SEKCJA NASZYJNIKI -->
     <section class="category-section">
@@ -101,6 +112,22 @@ async function loadAllProducts() {
 }
 
 loadAllProducts();
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+<script>
+  const swiper = new Swiper('.main-slider', {
+    loop: true,
+    autoplay: {
+      delay: 5000,
+      disableOnInteraction: false,
+    },
+    pagination: {
+      el: '.swiper-pagination',
+      clickable: true,
+    },
+    grabCursor: true,
+  });
 </script>
 </body>
 </html>
