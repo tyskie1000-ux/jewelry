@@ -73,7 +73,7 @@ body {
 .products-swiper .swiper-button-next,
 .products-swiper .swiper-button-prev {
     color: white;
-    top: 155px;
+    top: 150px;
     transform: translateY(-50%);
     z-index: 10;
     background: rgba(18, 18, 18, 0.6);
@@ -164,16 +164,22 @@ body {
 }
 
 .back-link {
-    color: #888;
-    text-decoration: none;
-    font-size: 0.9rem;
     display: inline-block;
-    margin-bottom: 30px;
-    transition: color 0.3s;
+    color: #bbb;
+    text-decoration: none;
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    border: 1px solid #444;
+    padding: 8px 16px;
+    margin-bottom: 40px;
+    transition: all 0.3s ease;
 }
 
 .back-link:hover {
     color: white;
+    border-color: white;
+    background: rgba(255,255,255,0.05);
 }
 
 .product-detail-layout {
