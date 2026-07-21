@@ -10,7 +10,35 @@
 </head>
 <body>
 
-    <div class="container product-detail-container">
+    <header class="site-header">
+        <a href="index.html">
+            <picture>
+                <source media="(max-width: 768px)" srcset="images/uploads/morana_logo_full_mobile.jpg">
+                <img src="images/uploads/morana_logo_full.jpg" alt="Morana Art Jewelry" class="header-banner">
+            </picture>
+        </a>
+    </header>
+
+    <nav class="main-nav">
+        <div class="nav-container">
+            <ul class="nav-links">
+                <li><a href="index.html#sec-Bransoletki">Bransoletki</a></li>
+                <li><a href="index.html#sec-Kolczyki">Kolczyki</a></li>
+                <li><a href="index.html#sec-Naszyjniki">Naszyjniki</a></li>
+            </ul>
+            <div class="permanent-menu">
+                <div class="hamburger-icon" onclick="toggleExtraMenu()">
+                    <span></span><span></span><span></span>
+                    <ul class="extra-dropdown" id="extraMenu">
+                        <li><a href="omnie.html">O mnie</a></li>
+                        <li><a href="kontakt.html">Kontakt</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container product-detail-container">>
         <a href="index.html" class="back-link">Powrót do strony głównej</a>
         
         <div id="product-content" class="product-detail-layout">
@@ -19,6 +47,10 @@
     </div>
 
     <script>
+    function toggleExtraMenu() {
+        document.getElementById('extraMenu').classList.toggle('active');
+    }
+
     // Globalna funkcja do podmiany dużego zdjęcia po kliknięciu w miniaturkę
     function changeMainImage(imgUrl, element) {
         const mainImg = document.getElementById('main-product-image');
