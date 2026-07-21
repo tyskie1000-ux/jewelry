@@ -440,6 +440,11 @@ body {
     .products-swiper .swiper-button-prev {
         top: 45%;
     }
+
+    .main-slider {
+        height: 250px;
+        margin-bottom: 30px;
+    }
 }
 
 /* RWD - na telefonach jedna kolumna */
