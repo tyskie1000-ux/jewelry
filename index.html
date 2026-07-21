@@ -100,43 +100,59 @@ async function loadAllProducts() {
     const folderPath = "content/products";
     const apiUrl = `https://api.github.com/repos/${repoOwner}/${repoName}/contents/${folderPath}`;
 
+    const categories = ["Bransoletki", "Kolczyki", "Naszyjniki"];
+    categories.forEach(cat => {
+        const el = document.getElementById(`grid-${cat}`);
+        if (el) el.innerHTML = '';
+    });
+
     try {
         const response = await fetch(apiUrl);
         const files = await response.json();
 
-        const categories = ["Bransoletki", "Kolczyki", "Naszyjniki"];
-        categories.forEach(cat => {
-            const el = document.getElementById(`grid-${cat}`);
-            if (el) el.innerHTML = '';
-        });
+        if (!Array.isArray(files)) {
+            console.error("Błąd API GitHub (prawdopodobnie limit zapytań):", files);
+            categories.forEach(cat => {
+                const el = document.getElementById(`grid-${cat}`);
+                if (el) {
+                    el.innerHTML = '<p style="color: #666; font-style: italic; text-align:center; width:100%;">Tymczasowy limit zapytań API GitHub został wyczerpany. Produkty pojawią się ponownie automatycznie po zresetowaniu limitu przez GitHub (zazwyczaj do godziny).</p>';
+                }
+            });
+            return;
+        }
 
         // TO JEST TWOJA PĘTLA FOR
         for (const file of files) {
             if (file.name.endsWith('.json')) {
+                try {
                     const res = await fetch(file.download_url + '?t=' + Date.now());
                     const product = await res.json();
 
                     const isNew = product.is_new === true || product.is_new === "true";
-                    let cleanPrice = product.price.toString().toLowerCase().replace('zł', '').trim();
+                    const priceRaw = product.price !== undefined && product.price !== null ? product.price.toString() : "0";
+                    let cleanPrice = priceRaw.toLowerCase().replace('zł', '').trim();
 
                     const cardHTML = `
                         <div class="swiper-slide">
                             <a href="product.html?id=${file.name}" class="product-card" style="text-decoration: none;">
                                 <div class="image-container">
-                                    <img src="${product.image}" alt="${product.title}">
+                                    <img src="${product.image || ''}" alt="${product.title || ''}">
                                 </div>
                                 <div class="product-info">
                                     ${isNew ? '<span class="product-category-label">NOWOŚĆ</span>' : ''}
-                                    <h3 class="product-name">${product.title}</h3>
+                                    <h3 class="product-name">${product.title || 'Produkt bez nazwy'}</h3>
                                     <div class="product-price">${cleanPrice} zł</div>
                                 </div>
                             </a>
                         </div>
                     `;
 
-                const targetGrid = document.getElementById(`grid-${product.category}`);
-                if (targetGrid) {
-                    targetGrid.innerHTML += cardHTML;
+                    const targetGrid = document.getElementById(`grid-${product.category}`);
+                    if (targetGrid) {
+                        targetGrid.innerHTML += cardHTML;
+                    }
+                } catch (innerError) {
+                    console.error("Błąd przetwarzania pojedynczego pliku produktu:", file.name, innerError);
                 }
             }
         }
@@ -148,25 +164,25 @@ async function loadAllProducts() {
             }
         });
 
-        document.querySelectorAll('.products-swiper').forEach(slider => {
-            new Swiper(slider, {
-                slidesPerView: 1,
-                spaceBetween: 15,
-                navigation: {
-                    nextEl: slider.querySelector('.swiper-button-next'),
-                    prevEl: slider.querySelector('.swiper-button-prev'),
-                },
-                breakpoints: {
-                    640: { slidesPerView: 2.5 },
-                    1024: { slidesPerView: 4 },
-                    1440: { slidesPerView: 5 }
-                }
-            });
-        });
-
     } catch (error) {
-        console.error("Błąd ładowania:", error);
+        console.error("Główny błąd ładowania API:", error);
     }
+
+    document.querySelectorAll('.products-swiper').forEach(slider => {
+        new Swiper(slider, {
+            slidesPerView: 1,
+            spaceBetween: 15,
+            navigation: {
+                nextEl: slider.querySelector('.swiper-button-next'),
+                prevEl: slider.querySelector('.swiper-button-prev'),
+            },
+            breakpoints: {
+                640: { slidesPerView: 2.5 },
+                1024: { slidesPerView: 4 },
+                1440: { slidesPerView: 5 }
+            }
+        });
+    });
 }
 
 loadAllProducts();
